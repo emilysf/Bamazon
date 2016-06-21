@@ -44,7 +44,7 @@ var start = function() {
             case 'Add to Inventory':
                 addInventory();
                 break;
-            case 'Add a New Product':
+            case 'Add New Product':
                 newProduct();
                 break;
         } 
@@ -62,8 +62,8 @@ var start = function() {
 
 		// creates a table for the products
 		var table = new Table({
-		    head: ['Item ID', 'Product Name', 'Price ($)', 'Stock Quantity']
-		  , colWidths: [15, 20, 15, 20]
+		    head: ['Item ID', 'Product Name', 'Department Name', 'Price ($)', 'Stock Quantity']
+		  , colWidths: [15, 15, 15, 15, 15]
 		});
 		 
 		// creates an array of data to show
@@ -95,8 +95,8 @@ var start = function() {
 
 			// creates a table for the products
 			var table = new Table({
-			    head: ['Item ID', 'Product Name', 'Price ($)', 'Stock Quantity']
-			  , colWidths: [15, 20, 15, 20]
+			    head: ['Item ID', 'Product Name', 'Department Name', 'Price ($)', 'Stock Quantity']
+			  , colWidths: [15, 15, 15, 15, 15]
 			});
 
 			for (i = 0; i < data.length; i++) {
@@ -153,10 +153,81 @@ var start = function() {
 	        }
 
 		}]).then(function(answers) {
-			
+
+			var id = answers.id;
+			var qty = parseInt(answers.qty);
+			//var newAmount = (qty + data[0].StockQuantity);
+
+			connection.query('UPDATE Products SET StockQuantity = ? WHERE itemID = ?', [qty, id], function(err, data) {
+				if (err) {
+					throw err;
+				}
+				else {
+					// var newAmount = (qty + data.StockQuantity);
+
+					console.log('\n');
+					console.log('----------Inventory was added!----------');
+					start();
+				}
+			});
 		});
 	}
 
-	
-	
+	//function adds new product to database
+	function newProduct() {
+
+		console.log('\n');
+		console.log('----------Add a New Product----------');
+		console.log('==============================================');
+
+		inquirer.prompt([{
+			name: 'product',
+			type:'input',
+			message:'Enter name of product being added.',
+
+		},{
+			name:'department',
+			type:'input',
+			message:'Enter the name of the department.',
+
+		},{
+			name:'price',
+			type:'input',
+			message:'Enter the price for the product.',
+
+			validate: function(value) {
+            
+	            if (isNaN(value) == false) {
+	                return true;
+	            } else {
+	                return false;
+	            }
+	        }
+
+	    },{
+			name:'stock',
+			type:'input',
+			message:'Enter the amount of product available.',
+
+			validate: function(value) {
+            
+	            if (isNaN(value) == false) {
+	                return true;
+	            } else {
+	                return false;
+	            }
+	        }
+
+	    }]).then(function(answers) {
+
+	    	var intStock = parseInt(answers.stock);
+	    	var addedProduct = (answers.product, answers.department, answers.price, intStock); 
+
+			connection.query('INSERT INTO Products (ProductName, DepartmentName, Price, StockQuantity) VALUES = ?', addedProduct, function(err, data) {
+				if (err) throw err;
+
+				console.log('----------Product Added!----------')
+			});
+		});
+	}	
 }  
