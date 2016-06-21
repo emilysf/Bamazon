@@ -1,5 +1,6 @@
 var mysql = require('mysql');
 var inquirer = require('inquirer');
+var Table = require('cli-table');
 //records info to connect to database 
 var connection = mysql.createConnection({
    host: 'localhost',
@@ -27,13 +28,29 @@ var start = function() {
 		console.log('======================================');
 		console.log('-----------Bamazon Products-----------');
 		console.log('======================================');
-		//displays products in console
+ 
+		// creates a table for the products
+		var table = new Table({
+		    head: ['Item ID', 'Product Name', 'Price ($)']
+		  , colWidths: [15, 20, 15]
+		});
+		 
+		// creates an array of data to show
 		for (i = 0; i < data.length; i++) {
-			console.log('Item ID: ' + data[i].itemID + ' | ' + 'Product: ' + data[i].ProductName + ' | ' + 'Price: $' + data[i].Price);
-	    }
-	    console.log('======================================');
+			table.push(
+			    
+			    [data[i].itemID, data[i].ProductName, data[i].Price]
+			);
+		}
+		 
+		console.log(table.toString());
+		// //displays products in console
+		// for (i = 0; i < data.length; i++) {
+		// 	console.log('Item ID: ' + data[i].itemID + ' | ' + 'Product: ' + data[i].ProductName + ' | ' + 'Price: $' + data[i].Price);
+	 //    }
+	 //    console.log('======================================');
 
-	    productSelection();
+	 //    productSelection();
 	});
 }  
 
@@ -67,7 +84,7 @@ var productSelection = function() {
                 return false;
             }
         }
-        
+
 	}]).then(function (answers) {
 		console.log('===================================');
 		console.log('You have selected Item ID ' + answers.Item);
