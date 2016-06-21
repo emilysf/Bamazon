@@ -91,8 +91,9 @@ var productSelection = function() {
 		console.log('Number chosen to be purchased: ' + answers.Quantity);
 		console.log('===================================');
 
-		connection.query('SELECT * FROM Products WHERE ?' [{itemID: answers.Item}], function(err, data) {
+		connection.query('SELECT * FROM Products WHERE ?', {itemID: answers.Item}, function(err, data) {
 			//if (err) throw err;
+			//console.log(data)
 			if (data[0].StockQuantity < answers.Quantity) {
 				console.log('I\'m sorry we do not have enough stock to fulfill your order.');
 				console.log('Select another product.');
@@ -119,11 +120,12 @@ var productSelection = function() {
 						} 
 						else {
 							console.log('Thanks for shopping at Bamazon! See you next time!');
-							connection.end;
+							connection.end();
 						}
 					});
 			    });
 			}
+		
 		});
 	});
 }

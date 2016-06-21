@@ -70,14 +70,14 @@ var start = function() {
 		for (i = 0; i < data.length; i++) {
 			table.push(
 			    
-			    [data[i].itemID, data[i].ProductName, data[i].Price, data[i].StockQuantity]
+			    [data[i].itemID, data[i].ProductName, data[i].DepartmentName, data[i].Price, data[i].StockQuantity]
 			);
 		}
 		 
 		console.log(table.toString());
 		console.log('=================================================');
 		
-		start();
+		connection.end();
 		
 		});
 
@@ -103,7 +103,7 @@ var start = function() {
 				if(data[i].StockQuantity < 5) {	
 					table.push(
 						
-					    [data[i].itemID, data[i].ProductName, data[i].Price, data[i].StockQuantity]
+					    [data[i].itemID, data[i].ProductName, data[i].DepartmentName, data[i].Price, data[i].StockQuantity]
 					
 					);
 				}
@@ -112,7 +112,7 @@ var start = function() {
 			console.log(table.toString());
 			console.log('=================================================');
 						
-			start();
+			connection.end();
 
 		});
 	}
@@ -167,7 +167,7 @@ var start = function() {
 
 					console.log('\n');
 					console.log('----------Inventory was added!----------');
-					start();
+					connection.end();
 				}
 			});
 		});
@@ -221,13 +221,15 @@ var start = function() {
 	    }]).then(function(answers) {
 
 	    	var intStock = parseInt(answers.stock);
-	    	var addedProduct = (answers.product, answers.department, answers.price, intStock); 
+	    	var addedProduct = [answers.product, answers.department, answers.price, intStock]; 
 
-			connection.query('INSERT INTO Products (ProductName, DepartmentName, Price, StockQuantity) VALUES = ?', addedProduct, function(err, data) {
+			connection.query('INSERT INTO Products (ProductName, DepartmentName, Price, StockQuantity) VALUES (?, ?, ?, ?)', addedProduct, function(err, data) {
 				if (err) throw err;
 
 				console.log('----------Product Added!----------')
 			});
+
+			connection.end();
 		});
 	}	
 }  
