@@ -31,8 +31,8 @@ var start = function() {
  
 		// creates a table for the products
 		var table = new Table({
-		    head: ['Item ID', 'Product Name', 'Price ($)']
-		  , colWidths: [15, 20, 15]
+		    head: ['Item ID', 'Product Name', 'Price ($)'],
+		   colWidths: [15, 20, 15]
 		});
 		 
 		// creates an array of data to show
