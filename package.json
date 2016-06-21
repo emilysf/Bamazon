@@ -1,0 +1,25 @@
+{
+  "name": "bamazon",
+  "version": "4.4.5",
+  "description": "Bamazon is a node.js app that has customers buy products.",
+  "main": "BamazonCustomer.js",
+  "dependencies": {
+    "cli-table": "^0.3.1",
+    "mysql": "^2.11.1",
+    "inquirer": "^1.0.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/emilysf/Bamazon.git"
+  },
+  "author": "Emily Frazin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/emilysf/Bamazon/issues"
+  },
+  "homepage": "https://github.com/emilysf/Bamazon#readme"
+}
